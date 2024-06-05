@@ -28,7 +28,6 @@ class Venue(UserProfile):
     municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True)
     ward = models.IntegerField(null=True, blank=True)    
 
-
     def __str__(self):
         return self.user.username
     
