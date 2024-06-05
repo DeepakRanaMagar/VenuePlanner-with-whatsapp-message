@@ -41,6 +41,9 @@ INSTALLED_APPS = [
 
     #Libraries
     'nepali_address',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_spectacular',
 
     #Apps
     "accounts.apps.AccountsConfig", 
@@ -56,6 +59,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Venue Booking System Endpoint Collection',
+    'DESCRIPTION': 'All the endpoints for Venue Booking System, developed by DeepakRanaMagar',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 MIDDLEWARE = [
