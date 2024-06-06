@@ -34,7 +34,7 @@ class VenueAdmin(admin.ModelAdmin):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['id','auth_id', 'full_name', 'email', 'username', 'phone_num', 'terms_condition']
+    list_display = ['auth_id', 'full_name', 'email', 'username', 'phone_num', 'terms_condition']
 
     def email(self, obj):
         return obj.user.email
