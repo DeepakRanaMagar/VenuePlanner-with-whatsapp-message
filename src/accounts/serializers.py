@@ -33,6 +33,9 @@ class VenueRegistrationSerializer(serializers.Serializer):
         if User.objects.filter(username=data.get("username")).exists():
             raise serializers.ValidationError("Username is already taken!")
         
+        if data.get("terms_condition") is None or data.get("terms_condition") == False:
+            raise serializers.ValidationError("Terms & Conditions must be accepted!")
+        
         return data
     
     @transaction.atomic
