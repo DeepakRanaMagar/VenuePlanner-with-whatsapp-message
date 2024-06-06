@@ -159,4 +159,16 @@ class UpdateProfileView(APIView):
             Handles the Update() request for the EditProfile fields
         '''
         print(request.user.username)
-        return Response(f"Check terminal!!!")
+        serializer = UpdateProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            try: 
+                serializer.save()
+                return Response(
+                    {
+                        f"Your profile is successfully updated"
+                    }, status=status.HTTP_200_OK
+                )
+            except Exception as e:
+                raise e
+        
+        return Response(serializer.errors)
