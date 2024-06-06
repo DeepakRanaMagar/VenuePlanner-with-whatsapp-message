@@ -155,5 +155,8 @@ class UpdateProfileView(APIView):
     permission_classes = [IsAuthenticated, ]
 
     def put(self, request):
-
-        return Response(request.data)
+        '''
+            Handles the Update() request for the EditProfile fields
+        '''
+        print(request.user.username)
+        return Response(f"Check terminal!!!")
