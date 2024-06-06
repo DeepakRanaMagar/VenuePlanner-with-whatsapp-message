@@ -103,3 +103,26 @@ class CustomerRegistrationSerializer(serializers.Serializer):
             )
         except Exception as e:
             raise e
+        
+
+
+class UpdateProfileSerializer(serializers.Serializer):
+    '''
+        Handles the serialization for the fields, to update the profile
+    '''
+    pan_no = serializers.CharField(required=False)
+    # photo1 = serializers.ImageField(required=False)
+    # video1 = serializers.FileField(required=False)
+    # property_type = serializers.CharField(required=False)
+
+
+    @transaction.atomic
+    def save(self, customer):
+        try:
+            if 'pan_no' in self.validated_data['pan_no']:
+                customer.pan_no = self.validated_data['pan_no']
+                print(customer.pan_no)
+        except Exception as e:
+            raise e
+
+

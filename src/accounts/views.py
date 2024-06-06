@@ -1,15 +1,15 @@
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
-from django.contrib.auth import login, authenticate
 from rest_framework import status
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Customer, Venue
 from .serializers import (CustomerRegistrationSerializer,
-                          VenueRegistrationSerializer)
+                          UpdateProfileSerializer, VenueRegistrationSerializer)
 
 
 # Create your views here.
@@ -145,3 +145,30 @@ class CustomerLoginView(APIView):
                     "error": "Login Failed. Invalid Credentials"
                 }, status=status.HTTP_401_UNAUTHORIZED
             )
+        
+
+
+class UpdateProfileView(APIView):
+    '''
+        Handles the endpoint for Update profile.
+    '''
+    permission_classes = [IsAuthenticated, ]
+
+    def put(self, request):
+        '''
+            Handles the Update() request for the EditProfile fields
+        '''
+        print(request.user.username)
+        serializer = UpdateProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            try: 
+                serializer.save()
+                return Response(
+                    {
+                        f"Your profile is successfully updated"
+                    }, status=status.HTTP_200_OK
+                )
+            except Exception as e:
+                raise e
+        
+        return Response(serializer.errors)

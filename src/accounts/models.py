@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import FileExtensionValidator
-from nepali_address.models import Province, District, Municipality
+from nepali_address.models import District, Municipality, Province
 
 
 class UserProfile(models.Model):
@@ -18,9 +18,11 @@ class Venue(UserProfile):
         Handles the Schema for the Venue Model
     '''
     organization_name = models.CharField(_("organization name"), max_length=50)
-    pan_no = models.CharField(_("Pan Number"),max_length=9, blank=True, null=True)
 
     #Edit profile fields
+    pan_no = models.CharField(_("Pan Number"),max_length=9, blank=True, null=True)
+    
+    #media fields
     photo1 = models.ImageField(_("Photo 1 "), upload_to='images/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     video1 = models.FileField(_("Video 1"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
     
