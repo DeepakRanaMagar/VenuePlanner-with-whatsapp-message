@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import CustomerRegisterView, VenueRegisterView, VenueLoginView, CustomerLoginView
+from .views import (CustomerLoginView, CustomerRegisterView, VenueLoginView,
+                    VenueRegisterView)
 
 urlpatterns = [
     path('register/venue/', VenueRegisterView.as_view()),
