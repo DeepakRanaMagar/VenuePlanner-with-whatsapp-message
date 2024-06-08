@@ -119,9 +119,9 @@ class UpdateProfileSerializer(serializers.Serializer):
     @transaction.atomic
     def save(self, customer):
         try:
-            if 'pan_no' in self.validated_data['pan_no']:
-                customer.pan_no = self.validated_data['pan_no']
-                print(customer.pan_no)
+            if 'pan_no' in self.validated_data['pan_no']: #bug vako line yo ho 
+                Venue.pan_no = self.validated_data['pan_no']
+                print(Venue.pan_no)
         except Exception as e:
             raise e
 

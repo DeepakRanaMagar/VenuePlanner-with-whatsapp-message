@@ -158,11 +158,20 @@ class UpdateProfileView(APIView):
         '''
             Handles the Update() request for the EditProfile fields
         '''
-        print(request.user.username)
+        print(request.user.id)
+        try:
+            venue = Venue.objects.get(user=request.user)
+        except Venue.DoesNotExist as e:
+            return Response(
+                {
+                    f"Account doesn't exists." 
+                }, status=status.HTTP_404_NOT_FOUND
+            )
+
         serializer = UpdateProfileSerializer(data=request.data)
         if serializer.is_valid():
             try: 
-                serializer.save()
+                serializer.save(venue=venue)
                 return Response(
                     {
                         f"Your profile is successfully updated"
