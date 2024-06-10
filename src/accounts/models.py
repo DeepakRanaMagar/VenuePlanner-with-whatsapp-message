@@ -77,7 +77,8 @@ class Media(models.Model):
         verbose_name = 'Media'
         verbose_name_plural = 'Medias'
 
-
+    def __str__(self):
+        return f'Photo for {self.venue.organization_name}'
 
 class Customer(UserProfile):
     '''
