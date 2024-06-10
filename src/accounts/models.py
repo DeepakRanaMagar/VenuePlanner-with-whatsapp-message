@@ -13,6 +13,19 @@ class UserProfile(models.Model):
     class Meta:
         abstract = True
 
+
+property_type = {
+    # "Value" : "Key"
+    "Party Palace" : "Party Palace",
+    "Resort" : "Resort", 
+    "Restaurant" : "Restaurant",
+    "Lounge" : "Lounge",
+    "Community Hall" : "Community Hall",
+    "Office Space" : "Office Space",
+    
+}
+
+
 class Venue(UserProfile):
     '''
         Handles the Schema for the Venue Model
@@ -22,18 +35,19 @@ class Venue(UserProfile):
     #Edit profile fields
     pan_no = models.CharField(_("Pan Number"),max_length=9, blank=True, null=True)
     
+    #property fields
+    property_type = models.CharField(_("Property Type"), choices=property_type, max_length=50, null=True, blank=True)
+    
     #media fields
     photo1 = models.ImageField(_("Photo 1 "), upload_to='images/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     video1 = models.FileField(_("Video 1"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
     
     #address fields
-    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True)
-    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
-    municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True)
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, blank=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True, blank=True)
     ward = models.IntegerField(null=True, blank=True)    
     
-    #property fields
-    property_type = models.CharField(_("Property Type"), max_length=50, null=True, blank=True)
 
 
     def __str__(self):

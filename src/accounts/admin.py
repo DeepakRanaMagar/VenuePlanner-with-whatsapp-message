@@ -6,7 +6,7 @@ from .models import Customer, Venue
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ['auth_id', 'organization_name', 'email', 'username', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition']
+    list_display = ['auth_id', 'organization_name', 'email', 'username','property_type', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition']
 
     def email(self, obj):
         return obj.user.email
@@ -24,7 +24,7 @@ class VenueAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('organization_name', 'pan_no', 'photo1', 'video1')
+            'fields': ('organization_name', 'pan_no', 'photo1', 'video1', 'property_type')
         }),
         ('Address', {
             'fields': ('province', 'district', 'municipality', 'ward'),
