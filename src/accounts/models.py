@@ -22,7 +22,6 @@ property_type = {
     "Lounge" : "Lounge",
     "Community Hall" : "Community Hall",
     "Office Space" : "Office Space",
-    
 }
 
 
@@ -48,8 +47,6 @@ class Venue(UserProfile):
     municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True, blank=True)
     ward = models.IntegerField(null=True, blank=True)    
     
-
-
     def __str__(self):
         return self.user.username
     
