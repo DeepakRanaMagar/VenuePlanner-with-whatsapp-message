@@ -101,6 +101,7 @@ class CustomerRegistrationSerializer(serializers.Serializer):
                 phone_num = self.validated_data["phone_num"],
                 terms_condition = self.validated_data["terms_condition"]
             )
+            
         except Exception as e:
             raise e
         
@@ -124,16 +125,21 @@ class UpdateProfileSerializer(serializers.Serializer):
                 venue.pan_no = self.validated_data['pan_no']
             
             if 'property_type' in self.validated_data:
-                print('property is present!!')
-                venue.property_type = self.validated_data['property_type']
-                # pt = self.validated_data['property_type']
-                # print(pt)
+                type = self.validated_data['property_type']
+                print(type)
+                try:
+                    venue.property_type = type
+                    print(f"{type} is saved!!!!")
+                except Exception as e:
+                    raise e
+                
             if 'photo1' in self.validated_data:
                 venue.photo1 = self.validated_data['photo1']
         
             if 'video1' in self.validated_data:
                 venue.video1 = self.validated_data['video1']
 
+            venue.save()
         except Exception as e:
             raise e
 

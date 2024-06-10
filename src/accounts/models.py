@@ -15,12 +15,14 @@ class UserProfile(models.Model):
 
 
 property_type = {
+    # "Value" : "Key"
     "Party Palace" : "Party Palace",
     "Resort" : "Resort", 
     "Restaurant" : "Restaurant",
     "Lounge" : "Lounge",
     "Community Hall" : "Community Hall",
     "Office Space" : "Office Space",
+    
 }
 
 
@@ -41,9 +43,9 @@ class Venue(UserProfile):
     video1 = models.FileField(_("Video 1"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
     
     #address fields
-    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True)
-    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
-    municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True)
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, blank=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True, blank=True)
     ward = models.IntegerField(null=True, blank=True)    
     
 
