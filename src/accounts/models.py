@@ -47,6 +47,19 @@ class Venue(UserProfile):
     municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True, blank=True)
     ward = models.IntegerField(null=True, blank=True)    
     
+    #subscription
+    isSubscribed = models.BooleanField(default=False)
+
+
+    #subscribed media
+    photo2 = models.ImageField(_("Subscription Photo"), upload_to='images/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    video2 = models.FileField(_("Subscription Video"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
+
+    #social media 
+    social1 = models.URLField(_("URL 1"), max_length=200, null=True)
+    social2 = models.URLField(_("URL 2"), max_length=200, null=True)
+    social3 = models.URLField(_("URL 3"), max_length=200, null=True)
+
     def __str__(self):
         return self.user.username
     
