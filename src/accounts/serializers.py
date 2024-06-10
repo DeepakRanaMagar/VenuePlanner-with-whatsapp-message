@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from rest_framework import serializers
 
-from .models import Customer, Venue
+from .models import Customer, Venue, Media
 
 
 class VenueRegistrationSerializer(serializers.Serializer):
@@ -218,3 +218,21 @@ class SubPassSerializer(serializers.Serializer):
                 
         except Exception as e:
             raise e
+        
+
+
+
+class MediaSerializer(serializers.ModelSerializer):
+    '''
+        Handles the serialization for the Media Model
+    '''
+    class Meta:
+        model = Media
+        fields = ['photo', 'video']
+    
+class VenueSerializer(serializers.ModelSerializer):
+    photos = MediaSerializer(many=True, required=False)
+    videos = MediaSerializer(many=True, required=False)
+
+    class Meta:
+        model = Venue
