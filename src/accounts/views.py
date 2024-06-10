@@ -147,6 +147,17 @@ class CustomerLoginView(APIView):
             )
         
 
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        request.auth.delete()
+        return Response(
+            {"message": "Successfully logged out"}, status=status.HTTP_200_OK
+        )
+
+
 
 class UpdateProfileView(APIView):
     '''
@@ -171,7 +182,7 @@ class UpdateProfileView(APIView):
         serializer = UpdateProfileSerializer(data=request.data)
         if serializer.is_valid():
             try: 
-                serializer.save(venue=venue)
+                serializer.save()
                 return Response(
                     {
                         f"Your profile is successfully updated"
