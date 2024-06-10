@@ -62,6 +62,23 @@ class Venue(UserProfile):
     def __str__(self):
         return self.user.username
     
+
+class Media(models.Model):
+    '''
+        Handles model schema for the Media Files uploaded for the Venue
+    '''
+    venue = models.ForeignKey(Venue, verbose_name=_("venue"), on_delete=models.CASCADE)
+
+    photo = models.ImageField(_("Subscription photo"), upload_to='images/subscription/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    video = models.FileField(_("Subscription video"), upload_to='videos/subscription/', max_length=100, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        verbose_name = 'Media'
+        verbose_name_plural = 'Medias'
+
+
+
 class Customer(UserProfile):
     '''
         Handles the Schema for the Customer Model
