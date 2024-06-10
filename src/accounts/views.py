@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from .models import Customer, Venue
 from .serializers import (CustomerRegistrationSerializer,
-                          UpdateProfileSerializer, VenueRegistrationSerializer)
+                          UpdateProfileSerializer, VenueRegistrationSerializer, SubscribeSerializer)
 
 
 # Create your views here.
@@ -194,3 +194,40 @@ class UpdateProfileView(APIView):
                 raise e
         
         return Response(serializer.errors)
+    
+
+class SubscriptionView(APIView):
+    '''
+        Handles the Endpoint for the Subscription
+    '''
+    permission_classes = [IsAuthenticated, ]
+    
+    def post(self, request):
+        '''
+            Handles post() for the subscription 
+        '''
+        # print(request.data)
+        try:
+            venue = Venue.objects.get(user=request.user)
+            # print(f'{venue} is present')
+
+        except Venue.DoesNotExist as e:
+            return Response(
+                {
+                    f"Account doesn't exists." 
+                }, status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = SubscribeSerializer(data=request.data)
+        if serializer.is_valid():
+            try: 
+                serializer.save(venue=venue)
+                return Response(
+                    {
+                        f"Subscribed is successfully."
+                    }, status=status.HTTP_200_OK
+                )
+            except Exception as e:
+                raise e
+        
+        return Response(serializer.errors)
+

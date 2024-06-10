@@ -143,4 +143,24 @@ class UpdateProfileSerializer(serializers.Serializer):
         except Exception as e:
             raise e
 
+class SubscribeSerializer(serializers.Serializer):
+    '''
+        Handles serialization for the Subscription field of the Venue Model.
+    '''
+    isSubscribed = serializers.BooleanField(required=True)
 
+    @transaction.atomic
+    def save(self, venue):
+
+        if 'isSubscribed' in self.validated_data:
+            # print("subscriber xa hai!!!!")
+            value = self.validated_data['isSubscribed']
+            # print(value)
+            try:
+                venue.isSubscribed = value
+                print("Subscribed DONE")
+            except Exception as e:
+                raise e
+            
+            venue.save()
+            

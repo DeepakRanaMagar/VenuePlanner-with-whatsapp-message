@@ -50,7 +50,6 @@ class Venue(UserProfile):
     #subscription
     isSubscribed = models.BooleanField(default=False)
 
-
     #subscribed media
     photo2 = models.ImageField(_("Subscription Photo"), upload_to='images/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     video2 = models.FileField(_("Subscription Video"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
