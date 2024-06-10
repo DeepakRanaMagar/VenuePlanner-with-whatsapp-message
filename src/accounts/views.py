@@ -8,8 +8,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Customer, Venue
-from .serializers import (CustomerRegistrationSerializer,
-                          UpdateProfileSerializer, VenueRegistrationSerializer, SubscribeSerializer, SubPassSerializer)
+from .serializers import (CustomerRegistrationSerializer, SubPassSerializer,
+                          SubscribeSerializer, UpdateProfileSerializer,
+                          VenueRegistrationSerializer)
 
 
 # Create your views here.

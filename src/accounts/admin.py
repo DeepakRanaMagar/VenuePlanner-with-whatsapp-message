@@ -6,7 +6,7 @@ from .models import Customer, Venue
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ['auth_id', 'organization_name', 'email', 'username','property_type', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition', 'isSubscribed', 'photo2', 'video2', 'social1', 'social2', 'social3']
+    list_display = ['auth_id', 'organization_name', 'email', 'username','property_type', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition', 'isSubscribed', 'social1', 'social2', 'social3']
 
     def email(self, obj):
         return obj.user.email
@@ -18,6 +18,11 @@ class VenueAdmin(admin.ModelAdmin):
         return obj.user.id
     auth_id.short_description = 'Auth'
 
+    # def is_Subscribed(self, obj):
+    #     return Venue.isSubscribed
+    # is_Subscribed.short_description = 'Subscribed'
+    # # is_Subscribed.boolean = True
+    
     def full_address(self, obj):
         return f"{obj.province}, {obj.district}, {obj.municipality}, {obj.ward}"
     full_address.short_description = 'Address'

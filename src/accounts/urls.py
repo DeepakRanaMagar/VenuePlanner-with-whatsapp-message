@@ -1,7 +1,8 @@
 from django.urls import path
 
 from .views import (CustomerLoginView, CustomerRegisterView, LogoutView,
-                    UpdateProfileView, VenueLoginView, VenueRegisterView, SubscriptionView, SubPassView)
+                    SubPassView, SubscriptionView, UpdateProfileView,
+                    VenueLoginView, VenueRegisterView)
 
 urlpatterns = [
     path('register/venue/', VenueRegisterView.as_view()),
