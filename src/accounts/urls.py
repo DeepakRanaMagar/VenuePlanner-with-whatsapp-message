@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (CustomerLoginView, CustomerRegisterView, LogoutView,
-                    UpdateProfileView, VenueLoginView, VenueRegisterView, SubscriptionView)
+                    UpdateProfileView, VenueLoginView, VenueRegisterView, SubscriptionView, SubPassView)
 
 urlpatterns = [
     path('register/venue/', VenueRegisterView.as_view()),
@@ -19,4 +19,7 @@ urlpatterns = [
 
     #subscription
     path('subcription/', SubscriptionView.as_view()),
+
+    #subcription privileges
+    path('subcription/update/', SubPassView.as_view()),
 ]
