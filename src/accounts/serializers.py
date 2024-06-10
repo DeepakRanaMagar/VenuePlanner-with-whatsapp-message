@@ -152,15 +152,69 @@ class SubscribeSerializer(serializers.Serializer):
     @transaction.atomic
     def save(self, venue):
 
-        if 'isSubscribed' in self.validated_data:
-            # print("subscriber xa hai!!!!")
-            value = self.validated_data['isSubscribed']
-            # print(value)
-            try:
-                venue.isSubscribed = value
-                print("Subscribed DONE")
-            except Exception as e:
-                raise e
+        try:
+            if 'isSubscribed' in self.validated_data:
+                value = self.validated_data['isSubscribed']
+                # print(value)
+                try:
+                    venue.isSubscribed = value
+                    print("Subscribed DONE")
+                except Exception as e:
+                    raise e
+                venue.save()
+        except Exception as e:
+            raise e    
+
+
+class SubPassSerializer(serializers.Serializer):
+    '''
+        Handles the serializeration for the Subscribed Priviliges
+    '''
+    # photo2 = serializers.ImageField(required=False)
+    # video2 = serializers.FileField(required=False)
+
+    social1 = serializers.URLField(required=False)
+    social2 = serializers.URLField(required=False)
+    social3 = serializers.URLField(required=False)
+
+    @transaction.atomic
+    def save(self, venue):
+        try:
+            # if 'photo2' in self.validated_data:
+            #         venue.photo2 = self.validated_data['photo2']
             
+            # if 'video2' in self.validated_data:
+            #     venue.video2 = self.validated_data['video2']
+
+            if 'social1' in self.validated_data:
+                url1  = self.validated_data['social1']
+                # print(url1)
+                try: 
+                    venue.social1 = url1
+                    
+                except Exception as e:
+                    raise e
+            
+            if 'social2' in self.validated_data:
+                url2  = self.validated_data['social2']
+                # print(url1)
+                try: 
+                    venue.social2 = url2
+                    
+                except Exception as e:
+                    raise 
+            
+            if 'social3' in self.validated_data:
+                url3  = self.validated_data['social3']
+                # print(url1)
+                try: 
+                    venue.social3 = url3
+                    
+                except Exception as e:
+                    raise
+
             venue.save()
-            
+
+                
+        except Exception as e:
+            raise e

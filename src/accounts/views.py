@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from .models import Customer, Venue
 from .serializers import (CustomerRegistrationSerializer,
-                          UpdateProfileSerializer, VenueRegistrationSerializer, SubscribeSerializer)
+                          UpdateProfileSerializer, VenueRegistrationSerializer, SubscribeSerializer, SubPassSerializer)
 
 
 # Create your views here.
@@ -148,6 +148,9 @@ class CustomerLoginView(APIView):
         
 
 class LogoutView(APIView):
+    '''
+        Handles the endpoints for the Logout
+    '''
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -231,3 +234,34 @@ class SubscriptionView(APIView):
         
         return Response(serializer.errors)
 
+
+
+class SubPassView(APIView):
+    '''
+        Handles API Endpoints for the subscribed venue, to access the fields
+    '''
+    def post(self, request):
+        # print(request.data)
+        try:
+            venue = Venue.objects.get(user=request.user)
+            # print(f'{venue} is present')
+
+        except Venue.DoesNotExist as e:
+            return Response(
+                {
+                    f"Account doesn't exists." 
+                }, status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = SubPassSerializer(data=request.data)
+        if serializer.is_valid():
+            try: 
+                serializer.save(venue=venue)
+                return Response(
+                    {
+                        f"Link is successfully posted."
+                    }, status=status.HTTP_200_OK
+                )
+            except Exception as e:
+                raise e
+        
+        return Response(serializer.errors)
