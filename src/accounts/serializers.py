@@ -118,14 +118,22 @@ class UpdateProfileSerializer(serializers.Serializer):
 
     @transaction.atomic
     def save(self, venue):
+        # print(self.validated_data['property_type'])
         try:
-            if 'pan_no' in self.validated_data['pan_no']:
-                Venue.pan_no = self.validated_data['pan_no']
+            if 'pan_no' in self.validated_data:
+                venue.pan_no = self.validated_data['pan_no']
             
-            if 'property_type' in self.validated_data['property_type']:
-                # Venue.property_type = self.validated_data['property_type']
-                pt = self.validated_data['property_type']
-                print(pt)
+            if 'property_type' in self.validated_data:
+                print('property is present!!')
+                venue.property_type = self.validated_data['property_type']
+                # pt = self.validated_data['property_type']
+                # print(pt)
+            if 'photo1' in self.validated_data:
+                venue.photo1 = self.validated_data['photo1']
+        
+            if 'video1' in self.validated_data:
+                venue.video1 = self.validated_data['video1']
+
         except Exception as e:
             raise e
 
