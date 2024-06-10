@@ -169,9 +169,11 @@ class UpdateProfileView(APIView):
         '''
             Handles the Update() request for the EditProfile fields
         '''
-        print(request.user.id)
+        # print(request.data['property_type'])
         try:
             venue = Venue.objects.get(user=request.user)
+            # print(venue)
+
         except Venue.DoesNotExist as e:
             return Response(
                 {
@@ -182,7 +184,7 @@ class UpdateProfileView(APIView):
         serializer = UpdateProfileSerializer(data=request.data)
         if serializer.is_valid():
             try: 
-                serializer.save()
+                serializer.save(venue=venue)
                 return Response(
                     {
                         f"Your profile is successfully updated"

@@ -13,6 +13,17 @@ class UserProfile(models.Model):
     class Meta:
         abstract = True
 
+
+property_type = {
+    "Party Palace" : "Party Palace",
+    "Resort" : "Resort", 
+    "Restaurant" : "Restaurant",
+    "Lounge" : "Lounge",
+    "Community Hall" : "Community Hall",
+    "Office Space" : "Office Space",
+}
+
+
 class Venue(UserProfile):
     '''
         Handles the Schema for the Venue Model
@@ -21,6 +32,9 @@ class Venue(UserProfile):
 
     #Edit profile fields
     pan_no = models.CharField(_("Pan Number"),max_length=9, blank=True, null=True)
+    
+    #property fields
+    property_type = models.CharField(_("Property Type"), choices=property_type, max_length=50, null=True, blank=True)
     
     #media fields
     photo1 = models.ImageField(_("Photo 1 "), upload_to='images/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
@@ -32,8 +46,6 @@ class Venue(UserProfile):
     municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True)
     ward = models.IntegerField(null=True, blank=True)    
     
-    #property fields
-    property_type = models.CharField(_("Property Type"), max_length=50, null=True, blank=True)
 
 
     def __str__(self):

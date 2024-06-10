@@ -15,5 +15,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view()),
     
     #update profile
-    path('update/', UpdateProfileView.as_view()),
+    path('venue/update/', UpdateProfileView.as_view()),
 ]

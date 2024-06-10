@@ -111,17 +111,21 @@ class UpdateProfileSerializer(serializers.Serializer):
         Handles the serialization for the fields, to update the profile
     '''
     pan_no = serializers.CharField(required=False)
-    # photo1 = serializers.ImageField(required=False)
-    # video1 = serializers.FileField(required=False)
-    # property_type = serializers.CharField(required=False)
+    photo1 = serializers.ImageField(required=False)
+    video1 = serializers.FileField(required=False)
+    property_type = serializers.CharField(required=False)
 
 
     @transaction.atomic
-    def save(self, customer):
+    def save(self, venue):
         try:
-            if 'pan_no' in self.validated_data['pan_no']: #bug vako line yo ho 
+            if 'pan_no' in self.validated_data['pan_no']:
                 Venue.pan_no = self.validated_data['pan_no']
-                print(Venue.pan_no)
+            
+            if 'property_type' in self.validated_data['property_type']:
+                # Venue.property_type = self.validated_data['property_type']
+                pt = self.validated_data['property_type']
+                print(pt)
         except Exception as e:
             raise e
 
