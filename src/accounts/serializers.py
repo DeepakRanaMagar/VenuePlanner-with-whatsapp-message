@@ -170,9 +170,16 @@ class SubPassSerializer(serializers.Serializer):
     '''
         Handles the serializeration for the Subscribed Priviliges
     '''
-    # photo2 = serializers.ImageField(required=False)
-    # video2 = serializers.FileField(required=False)
+    photo2 = serializers.ListField(
+        child = serializers.ImageField(required=False),
+        required = False
+    )
+    video2 = serializers.ListField(
+        child = serializers.FileField(required=False),
+        required = False
+    )
 
+    # URLS
     social1 = serializers.URLField(required=False)
     social2 = serializers.URLField(required=False)
     social3 = serializers.URLField(required=False)
@@ -180,11 +187,25 @@ class SubPassSerializer(serializers.Serializer):
     @transaction.atomic
     def save(self, venue):
         try:
-            # if 'photo2' in self.validated_data:
-            #         venue.photo2 = self.validated_data['photo2']
+            if 'photo2' in self.validated_data:
+                    for photo in self.validated_data['photo2']:
+                        try:
+                            Media.objects.create(
+                                venue=venue,
+                                photo=photo
+                            )
+                        except Exception as e:
+                            raise e
             
-            # if 'video2' in self.validated_data:
-            #     venue.video2 = self.validated_data['video2']
+            if 'video2' in self.validated_data:
+                    for video in self.validated_data['video2']:
+                        try:
+                            Media.objects.create(
+                                venue=venue,
+                                video=video
+                            )
+                        except Exception as e:
+                            raise e
 
             if 'social1' in self.validated_data:
                 url1  = self.validated_data['social1']
@@ -222,17 +243,18 @@ class SubPassSerializer(serializers.Serializer):
 
 
 
-class MediaSerializer(serializers.ModelSerializer):
-    '''
-        Handles the serialization for the Media Model
-    '''
-    class Meta:
-        model = Media
-        fields = ['photo', 'video']
+# class MediaSerializer(serializers.ModelSerializer):
+#     '''
+#         Handles the serialization for the Media Model
+#     '''
+#     class Meta:
+#         model = Media
+#         fields = ['photo', 'video']
     
-class VenueSerializer(serializers.ModelSerializer):
-    photos = MediaSerializer(many=True, required=False)
-    videos = MediaSerializer(many=True, required=False)
+# class VenueSerializer(serializers.ModelSerializer):
+#     photos = MediaSerializer(many=True, required=False)
+#     videos = MediaSerializer(many=True, required=False)
 
-    class Meta:
-        model = Venue
+#     class Meta:
+#         model = Venue
+#         fields = ['']
