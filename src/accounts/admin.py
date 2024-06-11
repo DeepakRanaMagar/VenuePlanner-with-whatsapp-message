@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Customer, Venue
+from .models import Customer, Venue, Media
 
 # Register your models here.
 
@@ -50,3 +50,7 @@ class CustomerAdmin(admin.ModelAdmin):
     def auth_id(self, obj):
         return obj.user.id
     auth_id.short_description = 'Auth'
+
+@admin.register(Media)
+class MediaAdmin(admin.ModelAdmin):
+    list_display = ['venue','photo', 'video']
