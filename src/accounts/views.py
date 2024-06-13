@@ -213,7 +213,6 @@ class SubscriptionView(APIView):
         # print(request.data)
         try:
             venue = Venue.objects.get(user=request.user)
-            # print(f'{venue} is present')
 
         except Venue.DoesNotExist as e:
             return Response(
