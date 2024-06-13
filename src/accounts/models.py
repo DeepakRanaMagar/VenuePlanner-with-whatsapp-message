@@ -35,7 +35,7 @@ class Venue(UserProfile):
     pan_no = models.CharField(_("Pan Number"),max_length=9, blank=True, null=True)
     
     # Logo field
-    logo = models.ImageField(_("Venue logo"), upload_to='images/logo',null=True,blank=True, height_field=None, width_field=None, max_length=None)
+    logo = models.ImageField(_("Venue logo"), upload_to='images/logo',null=True, blank=True, height_field=None, width_field=None, max_length=None)
 
     #property fields
     property_type = models.CharField(_("Property Type"), choices=property_type, max_length=50, null=True, blank=True)
