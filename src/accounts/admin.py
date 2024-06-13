@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from .models import Customer, Venue, Media
+from .models import Customer, Media, Venue
 
 # Register your models here.
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ['auth_id', 'organization_name', 'email', 'username','property_type', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition', 'isSubscribed', 'social1', 'social2', 'social3']
+    list_display = ['auth_id', 'organization_name', 'email', 'username','logo','property_type', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition', 'isSubscribed', 'social1', 'social2', 'social3']
 
     def email(self, obj):
         return obj.user.email
