@@ -111,6 +111,7 @@ class UpdateProfileSerializer(serializers.Serializer):
     '''
         Handles the serialization for the fields, to update the profile
     '''
+    logo = serializers.ImageField(required=False)
     pan_no = serializers.CharField(required=False)
     photo1 = serializers.ImageField(required=False)
     video1 = serializers.FileField(required=False)
@@ -121,15 +122,18 @@ class UpdateProfileSerializer(serializers.Serializer):
     def save(self, venue):
         # print(self.validated_data['property_type'])
         try:
+            if 'logo' in self.validated_data:
+                venue.logo =self.validated_data['logo']
+
             if 'pan_no' in self.validated_data:
                 venue.pan_no = self.validated_data['pan_no']
             
             if 'property_type' in self.validated_data:
                 type = self.validated_data['property_type']
-                print(type)
+                # print(type)
                 try:
                     venue.property_type = type
-                    print(f"{type} is saved!!!!")
+                    # print(f"{type} is saved!!!!")
                 except Exception as e:
                     raise e
                 
