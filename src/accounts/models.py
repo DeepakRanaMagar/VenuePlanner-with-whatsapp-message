@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from nepali_address.models import District, Municipality, Province
@@ -61,6 +61,17 @@ class Venue(UserProfile):
     social1 = models.URLField(_("URL 1"), max_length=200, null=True)
     social2 = models.URLField(_("URL 2"), max_length=200, null=True)
     social3 = models.URLField(_("URL 3"), max_length=200, null=True)
+
+    # rating
+    rating = models.IntegerField(_("Rating"), validators=[MinValueValidator(0), MaxValueValidator(5)], null=True, blank=True)
+
+    # pricing
+    price = models.IntegerField(_("Price"), validators=[MinValueValidator(0)], null=True, blank=True)
+
+    # seat capacity 
+    seat_capacity = models.IntegerField(_("Seat Capacity"), null=True, blank=True)
+
+
 
     def __str__(self):
         return self.user.username

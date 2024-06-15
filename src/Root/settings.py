@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     #Apps
-    "accounts.apps.AccountsConfig", 
+    "accounts.apps.AccountsConfig",
+    "booking.apps.BookingConfig",
 ]
 
 REST_FRAMEWORK = {
