@@ -45,9 +45,9 @@ class Venue(UserProfile):
     video1 = models.FileField(_("Video 1"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
     
     #address fields
-    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, blank=True)
-    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    municipality = models.ForeignKey(Municipality, on_delete=models.SET_NULL, null=True, blank=True)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
+    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, null=True, blank=True)
     ward = models.IntegerField(null=True, blank=True)    
     
     #subscription
@@ -58,9 +58,9 @@ class Venue(UserProfile):
     video2 = models.FileField(_("Subscription Video"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
 
     #social media 
-    social1 = models.URLField(_("URL 1"), max_length=200, null=True)
-    social2 = models.URLField(_("URL 2"), max_length=200, null=True)
-    social3 = models.URLField(_("URL 3"), max_length=200, null=True)
+    social1 = models.URLField(_("URL 1"), max_length=200, blank=True, null=True)
+    social2 = models.URLField(_("URL 2"), max_length=200, blank=True, null=True)
+    social3 = models.URLField(_("URL 3"), max_length=200, blank=True, null=True)
 
     # rating
     rating = models.IntegerField(_("Rating"), validators=[MinValueValidator(0), MaxValueValidator(5)], null=True, blank=True)
