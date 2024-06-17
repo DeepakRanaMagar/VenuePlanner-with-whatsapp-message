@@ -6,7 +6,11 @@ from .models import Customer, Media, Venue
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ['auth_id', 'organization_name', 'email', 'username','logo','property_type', 'phone_num', 'pan_no', 'full_address' ,'photo1', 'video1','terms_condition', 'isSubscribed', 'social1', 'social2', 'social3']
+    list_display = ['auth_id', 'organization_name', 'email', 'username','logo'
+                    ,'property_type', 'phone_num', 'pan_no', 'full_address' 
+                    ,'photo1', 'video1','terms_condition', 'isSubscribed'
+                    , 'social1', 'social2', 'social3', 'rating', 'price'
+                    ,'seat_capacity']
 
     def email(self, obj):
         return obj.user.email
@@ -29,7 +33,8 @@ class VenueAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('organization_name', 'pan_no', 'photo1', 'video1', 'property_type', 'isSubscribed', 'photo2', 'video2', 'social1', 'social2', 'social3')
+            'fields': ('organization_name', 'pan_no', 'photo1', 'video1', 'property_type', 'isSubscribed', 'photo2', 'video2', 'rating', 'price'
+                    ,'seat_capacity', 'social1', 'social2', 'social3')
         }),
         ('Address', {
             'fields': ('province', 'district', 'municipality', 'ward'),
