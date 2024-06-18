@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
+from django.core.validators import (FileExtensionValidator, MaxValueValidator,
+                                    MinValueValidator)
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from nepali_address.models import District, Municipality, Province
@@ -14,21 +15,21 @@ class UserProfile(models.Model):
         abstract = True
 
 
-property_type = {
-    # "Value" : "Key"
-    "Party Palace" : "Party Palace",
-    "Resort" : "Resort", 
-    "Restaurant" : "Restaurant",
-    "Lounge" : "Lounge",
-    "Community Hall" : "Community Hall",
-    "Office Space" : "Office Space",
-}
-
 
 class Venue(UserProfile):
     '''
         Handles the Schema for the Venue Model
     '''
+    property_type = {
+        # "Value" : "Key"
+        "Party Palace" : "Party Palace",
+        "Resort" : "Resort", 
+        "Restaurant" : "Restaurant",
+        "Lounge" : "Lounge",
+        "Community Hall" : "Community Hall",
+        "Office Space" : "Office Space",
+    }
+
     organization_name = models.CharField(_("organization name"), max_length=50)
 
     #Edit profile fields
