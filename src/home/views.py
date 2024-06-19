@@ -9,6 +9,7 @@ from accounts.models import Venue
 from .serializers import VenueSerializer
 
 
+
 class VenueView(APIView):
     '''
         Handles the browse by property type
@@ -67,12 +68,13 @@ class VenueSeatCapacityView(APIView):
 
     def get(self, request):
         '''
-            Handles GET() for the filter or querying
+            Handles GET() for the filtering the venues in the ascending order 
+            based on Seat capacity of the venue
         '''
         
         try:
-            venues = Venue.objects.order_by('price')
-            print(venues)
+            venues = Venue.objects.all().order_by('seat_capacity')
+
         except Venue.DoesNotExist as e:
             return Response(
                 f"error: {str(e)}",
