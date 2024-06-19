@@ -9,6 +9,7 @@ from accounts.models import Venue
 from .serializers import VenueSerializer
 
 
+
 class VenueView(APIView):
     '''
         Handles the browse by property type
@@ -41,6 +42,39 @@ class VenueView(APIView):
             venues = Venue.objects.filter(
                 **filters
                 ).all()
+        except Venue.DoesNotExist as e:
+            return Response(
+                f"error: {str(e)}",
+                status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+        
+            serializer = VenueSerializer(venues, many=True)
+            response = {
+                "Venues": serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+        
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+class VenueSeatCapacityView(APIView):
+    '''
+        Handles the browse by property type
+    '''
+    permission_classes = [AllowAny, ] 
+
+    def get(self, request):
+        '''
+            Handles GET() for the filtering the venues in the ascending order 
+            based on Seat capacity of the venue
+        '''
+        
+        try:
+            venues = Venue.objects.all().order_by('seat_capacity')
+
         except Venue.DoesNotExist as e:
             return Response(
                 f"error: {str(e)}",
