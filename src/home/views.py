@@ -65,7 +65,7 @@ class VenueSeatCapacityView(APIView):
     '''
     permission_classes = [AllowAny, ] 
 
-    def get(self):
+    def get(self, request):
         '''
             Handles GET() for the filtering the venues in the ascending order 
             based on Seat capacity of the venue
