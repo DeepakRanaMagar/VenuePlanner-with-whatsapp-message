@@ -6,8 +6,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from django.contrib.auth.models import User
+
 from .models import Customer, Venue
-from .serializers import (CustomerRegistrationSerializer, SubPassSerializer,
+from .serializers import (VenueSerializer, CustomerRegistrationSerializer, SubPassSerializer,
                           SubscribeSerializer, UpdateProfileSerializer,
                           VenueRegistrationSerializer)
 
@@ -97,6 +99,26 @@ class VenueLoginView(APIView):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+
+            logged_user_id = user.id
+
+            logged_user = User.objects.get(id = logged_user_id).username
+            print("username:",logged_user)
+            
+            isCustomer = Customer.objects.get(user__username = logged_user)
+            isVenue =  Venue.objects.get(user__username = logged_user)
+            
+            if isCustomer:
+                print('is Customer')
+            
+            else:
+                venue_detail = VenueSerializer(isVenue)
+                print("venue_detail: ",venue_detail.data)
+                # response = {
+                #     "profile_data": venue_detail.data
+                # }
+                # print(response)
+
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
             return Response(

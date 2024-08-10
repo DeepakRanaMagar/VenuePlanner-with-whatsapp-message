@@ -5,6 +5,26 @@ from rest_framework import serializers
 
 from .models import Customer, Media, Venue
 
+class UserSerializer(serializers.Serializer):
+    '''
+        Default auth user model serializer
+    '''
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'first_name', 'last_name']
+
+class VenueSerializer(serializers.ModelSerializer):
+    '''
+        Handles the Serialization for the VehicleOwner model 
+    '''
+
+    user = UserSerializer() #Calls the UserSerializer for the serialization of the user(OneToOne Field) in the model
+    # print('serializer user: ', user)
+    class Meta:
+        model = Venue
+        fields = ['user', 'organization_name']
+        # exclude = ['id',]
+
 
 class VenueRegistrationSerializer(serializers.Serializer):
     '''
