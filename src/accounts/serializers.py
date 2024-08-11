@@ -5,6 +5,25 @@ from rest_framework import serializers
 
 from .models import Customer, Media, Venue
 
+class UserSerializer(serializers.ModelSerializer):
+    '''
+        Default auth user model serializer
+    '''
+    class Meta:
+        model = User
+        # fields = ['email', 'username']
+        exclude = ['id', 'first_name', 'last_name', 'password', 'last_login', 'is_superuser', 'is_staff', 'is_active', 'groups', 'user_permissions', 'date_joined']
+
+class VenueSerializer(serializers.ModelSerializer):
+    '''
+        Handles the Serialization for the Venue model 
+    '''
+    user = UserSerializer(read_only = True) #Calls the UserSerializer for the serialization of the user(OneToOne Field) in the model
+
+    class Meta:
+        model = Venue
+        fields = '__all__'
+
 
 class VenueRegistrationSerializer(serializers.Serializer):
     '''
@@ -56,6 +75,19 @@ class VenueRegistrationSerializer(serializers.Serializer):
         except Exception as e:
             raise e 
         
+
+class CustomerSerializer(serializers.ModelSerializer):
+    '''
+        Handles the Serialization for the Customer model 
+    '''
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+
+
 
 class CustomerRegistrationSerializer(serializers.Serializer):
     '''
