@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
 from .models import Customer, Venue
-from .serializers import (VenueSerializer, CustomerRegistrationSerializer, SubPassSerializer,
+from .serializers import (CustomerSerializer, VenueSerializer, CustomerRegistrationSerializer, SubPassSerializer,
                           SubscribeSerializer, UpdateProfileSerializer,
                           VenueRegistrationSerializer)
 
@@ -103,28 +103,24 @@ class VenueLoginView(APIView):
             logged_user_id = user.id
 
             logged_user = User.objects.get(id = logged_user_id).username
-            print("username:",logged_user)
             
-            isCustomer = Customer.objects.get(user__username = logged_user)
-            isVenue =  Venue.objects.get(user__username = logged_user)
+            isVenue =  Venue.objects.filter(user__username = logged_user).first()
             
-            if isCustomer:
-                print('is Customer')
-            
-            else:
+            if isVenue:
                 venue_detail = VenueSerializer(isVenue)
-                print("venue_detail: ",venue_detail.data)
-                # response = {
-                #     "profile_data": venue_detail.data
-                # }
-                # print(response)
+                # print("venue_detail: ",venue_detail.data)
+                venue_response = {
+                    "user_data": venue_detail.data
+                }
+                # print('venue_response: ',venue_response)
 
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
             return Response(
                 {
                     "token": token.key,
-                    "user_id": user.id
+                    "user_id": user.id,
+                    "data": venue_response
                 }, status= status.HTTP_200_OK
             )
         else:
@@ -153,12 +149,30 @@ class CustomerLoginView(APIView):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+
+            logged_user_id = user.id
+
+            logged_user = User.objects.get(id = logged_user_id).username
+            # print("username:",logged_user)
+            
+            isCustomer = Customer.objects.filter(user__username = logged_user).first()
+            
+            if isCustomer:
+                customer_detail = CustomerSerializer(isCustomer)
+                customer_response = customer_detail.data
+
+                print(customer_response)
+                
+
             login(request, user)
+            
             token, created = Token.objects.get_or_create(user=user)
+            
             return Response(
                 {
                     "token": token.key,
-                    "user_id": user.id
+                    "user_id": user.id,
+                    "data": customer_response
                 }, status= status.HTTP_200_OK
             )
         else:
