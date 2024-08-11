@@ -58,6 +58,17 @@ class VenueView(APIView):
         
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
+    def get(self, request):
+        # print('Venue list all api')
+        venue_list = Venue.objects.all()
+        serializer = VenueSerializer(venue_list, many=True)
+            
+        response = {
+            "Venues": serializer.data
+        }
+        return Response(response, status=status.HTTP_200_OK)
+
+
 
 class VenueSeatCapacityView(APIView):
     '''

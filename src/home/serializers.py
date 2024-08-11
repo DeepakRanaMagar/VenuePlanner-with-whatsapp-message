@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.models import UserProfile, Venue
+from accounts.models import Venue, Media
 
 
 class VenueSerializer(serializers.ModelSerializer):
@@ -12,3 +12,12 @@ class VenueSerializer(serializers.ModelSerializer):
         fields = ['id','organization_name','logo', 'property_type', 'rating',
                   'seat_capacity']
         
+
+class MediaSerializer(serializers.ModelSerializer):
+    '''
+        Handles serializer for the Media files
+    '''
+
+    class Meta:
+        model = Media
+        fields = '__all__'
