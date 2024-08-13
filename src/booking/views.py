@@ -1,4 +1,4 @@
-from .serializers import BookingSerializer, BookDisplaySerializer
+from .serializers import BookingSerializer, CustomerDisplaySerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -54,7 +54,6 @@ class CustomerBookingView(APIView):
             isCustomer = Customer.objects.get(
                 user = user
             )
-            print("venue:",isCustomer)
             
         except Customer.DoesNotExist as e:
             return Response("Only Customer allowed to view the booking.", status=status.HTTP_400_BAD_REQUEST)
@@ -62,6 +61,37 @@ class CustomerBookingView(APIView):
         customer_bookings = BookingInfo.objects.filter(
             customer = isCustomer
         )
-        serializer = BookDisplaySerializer(customer_bookings, many=True)
+        serializer = CustomerDisplaySerializer(customer_bookings, many=True)
+        # serializer = CustomerBookDetailSerializer(customer_bookings, many=True)
+        # serializer = BookedVenueSerializer(customer_bookings, many=True)
 
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class VenueBookingView(APIView):
+    '''
+        Endpoint for Booking Request to accept/reject the 
+    '''
+    @permission_classes([IsAuthenticated])
+    def get(self, request):
+        '''
+            Handles POST() for the venue to fetch the booking details requested by the customer
+        '''
+        user = request.user
+
+        try:
+            isVenue = Venue.objects.get(
+                user=user
+            )
+            print("true venue: ", isVenue)
+        except Venue.DoesNotExist as e:
+            return Response({"error": "User is not a venue", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        venue_bookings = BookingInfo.objects.filter(
+            venue = isVenue
+        )
+        serializer = BookDisplaySerializer(venue_bookings, many=True)
+        # print(serializer.data) 
+        
         return Response(serializer.data, status=status.HTTP_200_OK)

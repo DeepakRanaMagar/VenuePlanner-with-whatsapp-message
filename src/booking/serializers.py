@@ -40,20 +40,48 @@ class BookingSerializer(serializers.ModelSerializer):
             booking_request = BookingInfo.objects.create(
                 **validated_data
             )
-            # print("Booking Request Sent!")
             return booking_request
         except Exception as e:
             raise serializers.ValidationError("Booking Request Failed!",{e})
         
 
 
-class BookDisplaySerializer(serializers.ModelSerializer):
-    '''
-        Handle serialization to display
-    '''
-    customer = CustomerSerializer(read_only=True)
+class BookInfoSerializer(serializers.ModelSerializer):
+
     venue = VenueSerializer(read_only=True)
 
     class Meta:
         model = BookingInfo
-        fields = ['id', 'customer', 'venue', 'date', 'status', 'request_sent_date', 'request_accepted_date']
+        fields = ['venue', 'date', 'status', 'request_sent_date', 'request_accepted_date']
+
+
+
+class CustomerDisplaySerializer(serializers.ModelSerializer):
+    '''
+        Handle serialization to display
+    '''
+    customer = CustomerSerializer(read_only=True)
+    # booking_details = BookInfoSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Customer
+        fields = ['id', 'customer']
+        # fields = ['id', 'customer', 'booking_details']
+
+
+
+
+'''
+    Nested serializer for the customer booking details
+'''
+
+# class CustomerBookDetailSerializer(serializers.ModelSerializer):
+#     '''
+#         Handles Serialization for the booking info
+#     '''
+#     customer = CustomerSerializer(read_only=True)
+#     booking_info = BookDisplaySerializer(read_only = True ,many = True)
+
+#     class Meta:
+#         model = BookingInfo
+#         fields = ['customer', 'booking_info']

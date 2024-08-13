@@ -16,8 +16,8 @@ class BookingInfo(models.Model):
         ('DECLINED', 'Declined'),
     ]
 
-    customer  = models.ForeignKey(Customer, verbose_name=_("Customer"), on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, verbose_name=_("Venue"), on_delete=models.CASCADE)
+    customer  = models.ForeignKey(Customer, related_name="booking_details" ,verbose_name=_("Customer"), on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue,related_name="bookings",verbose_name=_("Venue"), on_delete=models.CASCADE)
     date = models.DateField(_("Booking Date"), auto_now=False, auto_now_add=False)
     status = models.CharField(_("status"), choices=booking_status, max_length=50, default='PENDING')
     request_sent_date = models.DateTimeField(_("Request Sent Date"), auto_now_add=True)
