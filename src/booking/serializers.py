@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from datetime import date
 
 from accounts.models import Customer, Venue
+from accounts.serializers import VenueSerializer, CustomerSerializer
 
 from .models import BookingInfo
 
@@ -39,8 +40,20 @@ class BookingSerializer(serializers.ModelSerializer):
             booking_request = BookingInfo.objects.create(
                 **validated_data
             )
-            print("Booking Request Sent!")
+            # print("Booking Request Sent!")
             return booking_request
         except Exception as e:
             raise serializers.ValidationError("Booking Request Failed!",{e})
         
+
+
+class BookDisplaySerializer(serializers.ModelSerializer):
+    '''
+        Handle serialization to display
+    '''
+    customer = CustomerSerializer(read_only=True)
+    venue = VenueSerializer(read_only=True)
+
+    class Meta:
+        model = BookingInfo
+        fields = ['id', 'customer', 'venue', 'date', 'status', 'request_sent_date', 'request_accepted_date']
