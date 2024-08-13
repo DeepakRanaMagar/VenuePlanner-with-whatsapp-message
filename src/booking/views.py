@@ -1,4 +1,4 @@
-from .serializers import BookingSerializer, CustomerDisplaySerializer
+from .serializers import BookingSerializer, BookInfoDetailSerializer, BookReqInfoDetailSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -24,7 +24,6 @@ class CustomerBookingView(APIView):
             isCustomer = Customer.objects.get(
                 user = user
             )
-            # print("True:",isCustomer)
         except Exception as e:
             return('Customers can only send book request.', {e})
         
@@ -61,10 +60,7 @@ class CustomerBookingView(APIView):
         customer_bookings = BookingInfo.objects.filter(
             customer = isCustomer
         )
-        serializer = CustomerDisplaySerializer(customer_bookings, many=True)
-        # serializer = CustomerBookDetailSerializer(customer_bookings, many=True)
-        # serializer = BookedVenueSerializer(customer_bookings, many=True)
-
+        serializer = BookInfoDetailSerializer(isCustomer)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -91,7 +87,7 @@ class VenueBookingView(APIView):
         venue_bookings = BookingInfo.objects.filter(
             venue = isVenue
         )
-        serializer = BookDisplaySerializer(venue_bookings, many=True)
+        serializer = BookReqInfoDetailSerializer(isVenue)
         # print(serializer.data) 
         
         return Response(serializer.data, status=status.HTTP_200_OK)
