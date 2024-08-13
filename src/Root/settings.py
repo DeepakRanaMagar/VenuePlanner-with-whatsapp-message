@@ -49,8 +49,8 @@ INSTALLED_APPS = [
 
     #Apps
     "accounts.apps.AccountsConfig",
-    "booking.apps.BookingConfig",
     "home.apps.HomeConfig",
+    "booking.apps.BookingConfig",
 ]
 
 REST_FRAMEWORK = {
