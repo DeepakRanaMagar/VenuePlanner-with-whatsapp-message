@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -6,12 +7,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from django.contrib.auth.models import User
-
 from .models import Customer, Venue
-from .serializers import (CustomerSerializer, VenueSerializer, CustomerRegistrationSerializer, SubPassSerializer,
-                          SubscribeSerializer, UpdateProfileSerializer,
-                          VenueRegistrationSerializer)
+from .serializers import (CustomerRegistrationSerializer, CustomerSerializer,
+                          SubPassSerializer, SubscribeSerializer,
+                          UpdateProfileSerializer, VenueRegistrationSerializer,
+                          VenueSerializer)
 
 
 # Create your views here.
@@ -161,7 +161,7 @@ class CustomerLoginView(APIView):
                 customer_detail = CustomerSerializer(isCustomer)
                 customer_response = customer_detail.data
 
-                print(customer_response)
+                # print(customer_response)
                 
 
             login(request, user)

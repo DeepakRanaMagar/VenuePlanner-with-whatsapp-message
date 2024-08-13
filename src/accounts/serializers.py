@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from .models import Customer, Media, Venue
 
+
 class UserSerializer(serializers.ModelSerializer):
     '''
         Default auth user model serializer

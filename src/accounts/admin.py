@@ -6,12 +6,17 @@ from .models import Customer, Media, Venue
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ['auth_id', 'organization_name', 'email', 'username','logo'
+    # list_display = ['auth_id','id', 'organization_name', 'email', 'username','logo'
+    #                 ,'property_type', 'phone_num', 'pan_no', 'full_address' 
+    #                 , 'rating', 'price','seat_capacity','photo1', 'video1',
+    #                 'terms_condition', 'isSubscribed'
+    #                 , 'social1', 'social2', 'social3']
+
+    list_display = ['id', 'organization_name', 'email', 'username','logo'
                     ,'property_type', 'phone_num', 'pan_no', 'full_address' 
                     , 'rating', 'price','seat_capacity','photo1', 'video1',
                     'terms_condition', 'isSubscribed'
                     , 'social1', 'social2', 'social3']
-
     def email(self, obj):
         return obj.user.email
 
@@ -44,7 +49,8 @@ class VenueAdmin(admin.ModelAdmin):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['auth_id', 'full_name', 'email', 'username', 'phone_num', 'terms_condition']
+    # list_display = ['auth_id','id', 'full_name', 'email', 'username', 'phone_num', 'terms_condition']
+    list_display = ['id', 'full_name', 'email', 'username', 'phone_num', 'terms_condition']
 
     def email(self, obj):
         return obj.user.email
