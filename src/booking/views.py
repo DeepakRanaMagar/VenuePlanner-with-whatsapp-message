@@ -1,20 +1,20 @@
-from .serializers import BookingSerializer, BookInfoDetailSerializer, BookReqInfoDetailSerializer
-from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from accounts.models import Venue, Customer
+from accounts.models import Customer, Venue
+
 from .models import BookingInfo
+from .serializers import (BookInfoDetailSerializer, BookingSerializer,
+                          BookReqInfoDetailSerializer, BookReqUpdateSerializer)
 
 
 class CustomerBookingView(APIView):
     '''
         Endpoint for the Booking the venue by the client
     '''
-    # permission_classes = [IsAuthenticated, ]
-    @permission_classes([IsAuthenticated])
+    permission_classes = [IsAuthenticated, ]
     def post(self, request):
         '''
             Handles POST request to create Booking request
@@ -69,10 +69,30 @@ class VenueBookingView(APIView):
     '''
         Endpoint for Booking Request to accept/reject the 
     '''
-    @permission_classes([IsAuthenticated])
+    permission_classes = [IsAuthenticated, ]
+
     def get(self, request):
         '''
             Handles POST() for the venue to fetch the booking details requested by the customer
+        '''
+        user = request.user
+
+        try:
+            isVenue = Venue.objects.get(
+                user=user
+            )
+        except Venue.DoesNotExist as e:
+            return Response({"error": "User is not a venue", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        venue_bookings = BookingInfo.objects.filter(
+            venue = isVenue
+        )
+        serializer = BookReqInfoDetailSerializer(isVenue)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        '''
+            Handle the POST(), enables the venue to accept or reject the incoming booking request
         '''
         user = request.user
 
@@ -84,10 +104,6 @@ class VenueBookingView(APIView):
         except Venue.DoesNotExist as e:
             return Response({"error": "User is not a venue", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
-        venue_bookings = BookingInfo.objects.filter(
-            venue = isVenue
-        )
-        serializer = BookReqInfoDetailSerializer(isVenue)
-        # print(serializer.data) 
-        
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+        return Response("Check terminal")

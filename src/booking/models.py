@@ -22,7 +22,9 @@ class BookingInfo(models.Model):
     status = models.CharField(_("status"), choices=booking_status, max_length=50, default='PENDING')
     request_sent_date = models.DateTimeField(_("Request Sent Date"), auto_now_add=True)
     request_accepted_date = models.DateTimeField(_("Request Accepted Date"), null=True, blank=True)
-    
+    request_rejected_date = models.DateTimeField(_("Request Rejected Date"), null=True, blank=True, auto_now=False, auto_now_add=False)
+
+
     class Meta:
         managed = True
         verbose_name = 'BookingInfo'
