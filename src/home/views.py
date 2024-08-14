@@ -8,7 +8,6 @@ from accounts.models import Venue
 from .serializers import VenueSerializer
 
 
-
 class VenueView(APIView):
     '''
         Handles the browse by property type

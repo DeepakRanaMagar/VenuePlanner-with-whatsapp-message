@@ -33,6 +33,9 @@ urlpatterns = [
     path('accounts/', include("accounts.urls")),
     path('home/', include("home.urls")),
 
+    # route to book 
+    path('book/', include("booking.urls")),
+
     #Api docs
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

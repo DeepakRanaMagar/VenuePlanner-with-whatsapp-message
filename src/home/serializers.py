@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.models import Venue, Media
+from accounts.models import Media, Venue
 
 
 class VenueSerializer(serializers.ModelSerializer):
