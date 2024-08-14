@@ -50,6 +50,8 @@ class Venue(UserProfile):
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, null=True, blank=True)
     ward = models.IntegerField(null=True, blank=True)    
+
+    # address = models.CharField(_("Venue Address"), max_length=50, null=True, blank=True)
     
     #subscription
     isSubscribed = models.BooleanField(default=False)

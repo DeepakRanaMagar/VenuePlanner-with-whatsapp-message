@@ -149,7 +149,7 @@ class UpdateProfileSerializer(serializers.Serializer):
     photo1 = serializers.ImageField(required=False)
     video1 = serializers.FileField(required=False)
     property_type = serializers.CharField(required=False)
-
+    
 
     @transaction.atomic
     def save(self, venue):
