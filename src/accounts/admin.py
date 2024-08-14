@@ -12,9 +12,8 @@ class VenueAdmin(admin.ModelAdmin):
     #                 'terms_condition', 'isSubscribed'
     #                 , 'social1', 'social2', 'social3']
 
-    list_display = ['id', 'organization_name', 'email', 'username','logo'
-                    ,'property_type', 'phone_num', 'pan_no', 'full_address' 
-                    , 'rating', 'price','seat_capacity','photo1', 'video1',
+    list_display = ['id', 'organization_name', 'email', 'username','address','logo'
+                    ,'property_type', 'phone_num', 'pan_no', 'rating', 'price','seat_capacity','photo1', 'video1',
                     'terms_condition', 'isSubscribed'
                     , 'social1', 'social2', 'social3']
     def email(self, obj):
@@ -32,9 +31,9 @@ class VenueAdmin(admin.ModelAdmin):
     # is_Subscribed.short_description = 'Subscribed'
     # # is_Subscribed.boolean = True
     
-    def full_address(self, obj):
-        return f"{obj.province}, {obj.district}, {obj.municipality}, {obj.ward}"
-    full_address.short_description = 'Address'
+    # def full_address(self, obj):
+    #     return f"{obj.province}, {obj.district}, {obj.municipality}, {obj.ward}"
+    # full_address.short_description = 'Address'
 
     fieldsets = (
         (None, {

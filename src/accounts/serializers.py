@@ -144,6 +144,9 @@ class UpdateProfileSerializer(serializers.Serializer):
     '''
         Handles the serialization for the fields, to update the profile
     '''
+    organization_name = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
+    address = serializers.CharField(required =False)
     logo = serializers.ImageField(required=False)
     pan_no = serializers.CharField(required=False)
     photo1 = serializers.ImageField(required=False)
@@ -155,6 +158,16 @@ class UpdateProfileSerializer(serializers.Serializer):
     def save(self, venue):
         # print(self.validated_data['property_type'])
         try:
+            if 'organization_name' in self.validated_data:
+                venue.organization_name = self.validated_data['organization_name']
+
+            if 'email' in self.validated_data:
+                venue.user.email = self.validated_data['email']
+                venue.user.save()
+            
+            if 'address' in self.validated_data:
+                venue.address = self.validated_data['address']
+
             if 'logo' in self.validated_data:
                 venue.logo =self.validated_data['logo']
 
