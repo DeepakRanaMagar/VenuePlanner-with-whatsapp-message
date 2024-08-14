@@ -1,9 +1,11 @@
-from rest_framework import serializers
-from rest_framework.permissions import IsAuthenticated
 from datetime import date
 
+from django.utils import timezone
+from rest_framework import serializers
+from rest_framework.permissions import IsAuthenticated
+
 from accounts.models import Customer, Venue
-from accounts.serializers import VenueSerializer, CustomerSerializer
+from accounts.serializers import CustomerSerializer, VenueSerializer
 
 from .models import BookingInfo
 
@@ -54,7 +56,7 @@ class BookInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookingInfo
-        fields = ['id', 'venue', 'date', 'status', 'request_sent_date', 'request_accepted_date']
+        fields = ['id', 'venue', 'date', 'status', 'request_sent_date', 'request_accepted_date', 'request_rejected_date']
 
 
 
@@ -77,7 +79,7 @@ class BookReqSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookingInfo
-        fields = ['id', 'customer', 'date', 'status', 'request_sent_date', 'request_accepted_date']
+        fields = ['id', 'customer', 'date', 'status', 'request_sent_date', 'request_accepted_date', 'request_rejected_date']
 
 class BookReqInfoDetailSerializer(serializers.ModelSerializer):
     req_details = BookReqSerializer(many = True, read_only = True, source = "request_details")
@@ -85,3 +87,24 @@ class BookReqInfoDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venue
         fields = ['id', 'organization_name', 'req_details']
+
+class BookReqUpdateSerializer(serializers.ModelSerializer):
+    '''
+        handles the serialization for the accepting/rejecting the Incoming booking request
+    '''
+    class Meta:
+        model = BookingInfo
+        fields = ['status', 'request_accepted_date', 'request_rejected_date']
+    
+    def update(self, instance, validated_data):
+        status = validated_data.get('status', instance.status)
+
+        if status == 'ACCEPTED':
+            instance.request_accepted_date = timezone.now()
+
+        if status == "DECLINED":
+            instance.request_rejected_date = timezone.now()
+        
+        instance.status = status
+        instance.save()
+        return instance
