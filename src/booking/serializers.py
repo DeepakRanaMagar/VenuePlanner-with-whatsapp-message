@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.template.loader import render_to_string
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.permissions import IsAuthenticated
@@ -7,8 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from accounts.models import Customer, Venue
 from accounts.serializers import CustomerSerializer, VenueSerializer
 
-from .models import BookingInfo
 from .message import sendWhatsappMessage
+from .models import BookingInfo
+
 
 class BookingSerializer(serializers.ModelSerializer):
     '''
@@ -42,7 +44,33 @@ class BookingSerializer(serializers.ModelSerializer):
                 **validated_data
             )
             # print("Booking Request Sent!")
+            customer_phone_num = booking_request.customer.phone_num
+            venue_phone_num = booking_request.venue.phone_num
+
+            # Load the message templates
+            customer_message = render_to_string('messages/customer_booking_request.txt', {
+                'customer_name': booking_request.customer.user.username,
+                'venue_name': booking_request.venue.organization_name,
+                'booking_date': booking_request.date,
+            })
+
+            venue_message = render_to_string('messages/venue_notification.txt', {
+                'venue_name': booking_request.venue.organization_name,
+                'customer_name': booking_request.customer.user.username,
+                'booking_date': booking_request.date,
+            })      
+            
+            # Call the sendWhatsappMessage function
+            try:
+                sendWhatsappMessage(customer_phone_num, customer_message)
+                sendWhatsappMessage(venue_phone_num, venue_message)
+
+            except Exception as e:
+                print("Error sending whatsapp message",{e})
+                return serializers.ErrorDetail(e)
+            
             return booking_request
+
         except Exception as e:
             raise serializers.ValidationError("Booking Request Failed!",{e})
         
@@ -107,4 +135,33 @@ class BookReqUpdateSerializer(serializers.ModelSerializer):
         
         instance.status = status
         instance.save()
+
+
+
+        booking_request = instance
+        customer_phone_num = booking_request.customer.phone_num
+        venue_phone_num = booking_request.venue.phone_num
+
+        # Load the message templates
+        customer_message = render_to_string('messages/customer_request_accepted.txt', {
+            'customer_name': booking_request.customer.user.username,
+            'venue_name': booking_request.venue.organization_name,
+            'booking_date': booking_request.date,
+        })
+
+        venue_message = render_to_string('messages/venue_request_accepted.txt', {
+            'venue_name': booking_request.venue.organization_name,
+            'customer_name': booking_request.customer.user.username,
+            'booking_date': booking_request.date,
+        })      
+            
+            # Call the sendWhatsappMessage function
+        try:
+            sendWhatsappMessage(customer_phone_num, customer_message)
+            sendWhatsappMessage(venue_phone_num, venue_message)
+                
+        except Exception as e:
+            print("Error sending whatsapp message",{e})
+            return serializers.ErrorDetail(e)
+        
         return instance

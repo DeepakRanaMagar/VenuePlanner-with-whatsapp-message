@@ -1,8 +1,0 @@
-Dear {{ customer_name }},
-
-Your booking request for {{ venue_name }} on {{ booking_date }} has been {{ booking_status }}.
-
-Thank you for using our service!
-
-Regards,
-Your Company Name
