@@ -8,7 +8,7 @@ from accounts.models import Customer, Venue
 from accounts.serializers import CustomerSerializer, VenueSerializer
 
 from .models import BookingInfo
-
+from .message import sendWhatsappMessage
 
 class BookingSerializer(serializers.ModelSerializer):
     '''
