@@ -1,0 +1,12 @@
+Dear {{ venue.organization_name }},
+
+You have a new booking request from {{ customer.full_name }}.
+
+**Booking Details:**
+- Booking Date: {{ booking.date }}
+- Status: {{ booking.status }}
+
+Please review and respond to this request as soon as possible.
+
+Regards,
+Your Booking System

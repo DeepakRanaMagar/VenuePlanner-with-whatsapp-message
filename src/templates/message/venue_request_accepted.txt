@@ -1,0 +1,8 @@
+Hello {{ venue_name }},
+
+The booking request from {{ customer_name }} for {{ booking_date }} has been successfully accepted.
+
+Please ensure that everything is prepared for the upcoming event. 
+
+Best regards,
+{{ customer_name }}
