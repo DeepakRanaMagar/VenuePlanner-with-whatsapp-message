@@ -45,14 +45,16 @@ class BookingSerializer(serializers.ModelSerializer):
             )
             # print("Booking Request Sent!")
             customer_phone_num = booking_request.customer.phone_num
+            # print('Customer_phone_num:', customer_phone_num)
             venue_phone_num = booking_request.venue.phone_num
 
             # Load the message templates
-            customer_message = render_to_string('messages/customer_booking_request.txt', {
+            customer_message = render_to_string('messages/customer_request_sent.txt', {
                 'customer_name': booking_request.customer.user.username,
                 'venue_name': booking_request.venue.organization_name,
                 'booking_date': booking_request.date,
             })
+
 
             venue_message = render_to_string('messages/venue_notification.txt', {
                 'venue_name': booking_request.venue.organization_name,
@@ -61,13 +63,10 @@ class BookingSerializer(serializers.ModelSerializer):
             })      
             
             # Call the sendWhatsappMessage function
-            try:
+            if booking_request:
                 sendWhatsappMessage(customer_phone_num, customer_message)
                 sendWhatsappMessage(venue_phone_num, venue_message)
 
-            except Exception as e:
-                print("Error sending whatsapp message",{e})
-                return serializers.ErrorDetail(e)
             
             return booking_request
 
