@@ -1,0 +1,8 @@
+Dear {{ customer_name }},
+
+Your booking request for {{ venue_name }} on {{ booking_date }} has been sent.
+
+Thank you for using our service!
+
+Regards,
+Digital Sangalo Pvt. Ltd
