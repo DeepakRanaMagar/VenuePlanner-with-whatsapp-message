@@ -1,49 +1,46 @@
 import requests
 from django.conf import settings
-from django.template.loader import render_to_string
-
-from .models import BookingInfo
+from decouple import config
 
 
 def sendWhatsappMessage(phone_num, message):
-    # message = render_to_string('messages/booking_confirmation.txt', {
-    #     'customer_name': BookingInfo.customer.full_name,
-    #     'venue_name': BookingInfo.venue.organization_name,
-    #     'booking_date': BookingInfo.date,
-    #     # 'booking_status': booking.status,
-    # })
     
-    headers = {"Authorization": settings.WHATSAPP_TOKEN}
+    # url = settings.WHATSAPP_URL
+    url = config('WHATSAPP_URL')
+    token = config('WHATSAPP_TOKEN')
+
+    if not url:
+        print("url: ",url)
+        raise ValueError("WHATSAPP_URL is not configured or is empty.")
+    if not token:
+        print('token: ', token)
+        raise ValueError("WHATSAPP_TOKEN is not configured or is empty.")
+
+    headers = {"Authorization": f"Bearer {token}"}
+
     payload = {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
         "to": phone_num,
         "type": "text",
-        "text": {"body":message}
+        "text": {
+            "preview_url": True,
+            "body":message
+            }
     }
-    response = requests.post(settings.WHATSAPP_URL, headers=headers, json=payload)
-    ans = response.json()
-    return ans
+    # Check if URL is correctly configured
+    # if not url:
+    #     raise ValueError("WHATSAPP_URL is not configured in settings.py")
 
-# def sendWhatsappMessage(customer, venue, booking_date):
-#     # Prepare context data for the template
-#     context = {
-#         'customer_name': customer.full_name,
-#         'venue_name': venue.organization_name,
-#         'booking_date': booking_date,
-#     }
+    # Make the POST request
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()  # Raise an HTTPError for bad responses
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending WhatsApp message: {e}")
+        
 
-#     # Render the template with the provided context
-#     message = render_to_string('whatsapp_message.txt', context)
-
-#     # Sending the WhatsApp message
-#     headers = {"Authorization": settings.WHATSAPP_TOKEN}
-#     payload = {
-#         "messaging_product": "whatsapp",
-#         "recipient_type": "individual",
-#         "to": customer.phone_num,
-#         "type": "text",
-#         "text": {"body": message}
-#     }
-#     response = requests.post(settings.WHATSAPP_URL, headers=headers, json=payload)
-#     return response.json()
+# phone_num = 9867288665
+# message = "Hello this is test message"
+# sendWhatsappMessage(phone_num, message)
