@@ -1,8 +1,0 @@
-Dear {{ customer_name }},
-
-We are excited to inform you that your booking request for {{ venue_name }} on {{ booking_date }} has been accepted!
-
-Thank you for choosing us. We look forward to hosting you.
-
-Best regards,
-{{ venue_name }}
