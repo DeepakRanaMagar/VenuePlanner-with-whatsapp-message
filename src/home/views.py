@@ -22,6 +22,7 @@ class VenueView(APIView):
         price = request.data.get('price')
         name = request.data.get('organization_name')
         date = request.data.get('date')
+        seat_capacity = request.data.get('seat_capacity')
 
         filters = {} # empty dictionary for key value pair 
         if property_type:
@@ -35,6 +36,9 @@ class VenueView(APIView):
 
         if date:
             filters['date'] = date
+
+        if seat_capacity:
+            filters['seat_capacity'] = seat_capacity
 
         try:
             venues = Venue.objects.filter(
