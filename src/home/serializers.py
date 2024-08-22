@@ -9,8 +9,8 @@ class VenueSerializer(serializers.ModelSerializer):
     '''
     class Meta:
         model = Venue
-        fields = ['id','organization_name','logo', 'property_type', 'rating',
-                  'seat_capacity']
+        fields = ['id','organization_name', 'logo', 'photo1', 'property_type', 'rating',
+                  'seat_capacity', 'address']
         
 
 class MediaSerializer(serializers.ModelSerializer):
