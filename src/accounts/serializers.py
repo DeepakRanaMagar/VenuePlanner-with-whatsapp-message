@@ -152,7 +152,7 @@ class UpdateProfileSerializer(serializers.Serializer):
     photo1 = serializers.ImageField(required=False)
     video1 = serializers.FileField(required=False)
     property_type = serializers.CharField(required=False)
-    seat_capacity = serializers.IntegerField(required=False)
+    seat_capacity = serializers.CharField(required=False)
 
     @transaction.atomic
     def save(self, venue):
@@ -160,7 +160,7 @@ class UpdateProfileSerializer(serializers.Serializer):
         try:
             
             if 'seat_capacity' in self.validated_data:
-                venue.seat_capacity = self.validated_data['seat_capacity']
+                venue.seat_capacity = int(self.validated_data['seat_capacity'])
             
             if 'organization_name' in self.validated_data:
                 venue.organization_name = self.validated_data['organization_name']
