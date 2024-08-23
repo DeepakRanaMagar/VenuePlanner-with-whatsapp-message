@@ -152,12 +152,16 @@ class UpdateProfileSerializer(serializers.Serializer):
     photo1 = serializers.ImageField(required=False)
     video1 = serializers.FileField(required=False)
     property_type = serializers.CharField(required=False)
-    seat_capacity = serializers.IntegerField(required=True)
+    seat_capacity = serializers.IntegerField(required=False)
 
     @transaction.atomic
     def save(self, venue):
         # print(self.validated_data['property_type'])
         try:
+            
+            if 'seat_capacity' in self.validated_data:
+                venue.seat_capacity = self.validated_data['seat_capacity']
+            
             if 'organization_name' in self.validated_data:
                 venue.organization_name = self.validated_data['organization_name']
 
@@ -183,9 +187,7 @@ class UpdateProfileSerializer(serializers.Serializer):
                 except Exception as e:
                     raise e
             
-            if 'seat_capacity' in self.validated_data:
-                venue.seat_capacity = self.validated_data['seat_capacity']
-                
+
             if 'photo1' in self.validated_data:
                 venue.photo1 = self.validated_data['photo1']
         
