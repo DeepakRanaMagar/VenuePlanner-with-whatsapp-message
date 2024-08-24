@@ -40,10 +40,10 @@ class VenueAdmin(admin.ModelAdmin):
             'fields': ('organization_name','phone_num', 'pan_no', 'photo1', 'video1', 'property_type', 'isSubscribed', 'photo2', 'video2', 'rating', 'price'
                     ,'seat_capacity', 'social1', 'social2', 'social3')
         }),
-        ('Address', {
-            'fields': ('province', 'district', 'municipality', 'ward'),
-            'classes': ('collapse',),
-        }),
+        # ('Address', {
+        #     'fields': ('province', 'district', 'municipality', 'ward'),
+        #     'classes': ('collapse',),
+        # }),
     )
 
 @admin.register(Customer)
