@@ -45,12 +45,6 @@ class Venue(UserProfile):
     photo1 = models.ImageField(_("Photo 1 "), upload_to='images/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     video1 = models.FileField(_("Video 1"), upload_to='videos/', max_length=100, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])], blank=True, null=True)
     
-    #address fields
-    # province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)
-    # district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
-    # municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, null=True, blank=True)
-    # ward = models.IntegerField(null=True, blank=True)    
-
     address = models.CharField(_("Venue Address"), max_length=50, null=True, blank=True)
     
     #subscription
