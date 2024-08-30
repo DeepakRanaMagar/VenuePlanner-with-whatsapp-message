@@ -27,7 +27,7 @@ This project provides a seamless venue booking experience for customers. Custome
 4. Access the application in your web browser at `http://localhost:8000`
 
 ### Endpoints
-- API Documentation: /api/schema/swagger-ui/
+- API Documentation: `/api/schema/swagger-ui/`
 
 ## Contributing
 
