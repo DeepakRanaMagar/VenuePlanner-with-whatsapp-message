@@ -5,7 +5,6 @@ from decouple import config
 
 def sendWhatsappMessage(phone_num, message):
     
-    # url = settings.WHATSAPP_URL
     url = config('WHATSAPP_URL')
     token = config('WHATSAPP_TOKEN')
 
@@ -28,11 +27,7 @@ def sendWhatsappMessage(phone_num, message):
             "body":message
             }
     }
-    # Check if URL is correctly configured
-    # if not url:
-    #     raise ValueError("WHATSAPP_URL is not configured in settings.py")
-
-    # Make the POST request
+    
     try:
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()  # Raise an HTTPError for bad responses
@@ -41,6 +36,3 @@ def sendWhatsappMessage(phone_num, message):
         print(f"Error sending WhatsApp message: {e}")
         
 
-# phone_num = 9867288665
-# message = "Hello this is test message"
-# sendWhatsappMessage(phone_num, message)
