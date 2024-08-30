@@ -1,4 +1,4 @@
-# VenuePlanner
+# VenuePlanner with Whatsapp Message
 
 This project provides a seamless venue booking experience for customers. Customers can submit booking requests based on their desired date, and the venue, which serves as a backend, has the option to accept or reject the request. Once a booking is confirmed, a WhatsApp message is automatically sent to both the customer and the venue, notifying them of the decision. This streamlined communication process ensures efficient coordination between all parties involved.
 
